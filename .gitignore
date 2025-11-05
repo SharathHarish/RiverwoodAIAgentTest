@@ -1,0 +1,15 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+riverwood_env/
+env/
+venv/
+lib/
+Scripts/
+include/
+
+# Secrets
+.env
