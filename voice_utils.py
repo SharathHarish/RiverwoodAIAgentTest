@@ -7,7 +7,7 @@ import pygame
 
 # ---------- Initialize offline engine ----------
 _engine = pyttsx3.init()
-_engine.setProperty("rate", 175)
+_engine.setProperty("rate", 300)
 voices = _engine.getProperty("voices")
 if len(voices) > 1:
     _engine.setProperty("voice", voices[1].id)  # female if available
@@ -46,6 +46,8 @@ def _pause_for_punctuation(punct):
         ':': random.uniform(0.3, 0.5),
         '?': random.uniform(0.6, 0.9),
         '!': random.uniform(0.5, 0.7),
+        '*': random.uniform(0.5, 0.7),
+        '**': random.uniform(0.5, 0.7)
     }.get(punct, random.uniform(0.3, 0.6))
 
 

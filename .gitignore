@@ -13,3 +13,4 @@ include/
 
 # Secrets
 .env
+pokemon.py

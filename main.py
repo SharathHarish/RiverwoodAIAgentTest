@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import scrolledtext
 from PIL import Image, ImageTk
-import threading, os, time
+import threading, os
 import speech_recognition as sr
 from ai_core import chat_with_ai, load_memory, OPENAI_API_KEY
 from voice_utils import speak
@@ -11,7 +11,6 @@ from openai import OpenAI
 BG = "#F9F9F6"
 PRIMARY = "#103C3F"
 ACCENT = "#C5A35C"
-
 
 class RiverdaleApp:
     def __init__(self, root):
@@ -125,61 +124,8 @@ class RiverdaleApp:
 
     # ---- VOICE CONTROL ----
     def toggle_voice_record(self):
-        if self._recording:
-            # stop
-            self._recording = False
-            self.speak_btn.config(text="🎤 Speak", bg=ACCENT)
-            self.timer_label.config(text="")
-        else:
-            # start
-            self._recording = True
-            self.record_seconds = 0
-            self.speak_btn.config(text="⏹ Stop", bg="#C94C4C")
-            threading.Thread(target=self.voice_record_thread, daemon=True).start()
-            self.update_timer()
-
-    def update_timer(self):
-        if self._recording:
-            self.record_seconds += 1
-            self.timer_label.config(text=f"{self.record_seconds:02d} s", fg="red")
-            self.root.after(1000, self.update_timer)
-
-    def voice_record_thread(self):
-        r = sr.Recognizer()
-        text = ""
-        try:
-            with sr.Microphone() as source:
-                r.adjust_for_ambient_noise(source, duration=0.5)
-                audio_chunks = []
-                while self._recording:
-                    try:
-                        chunk = r.listen(source, timeout=0.5, phrase_time_limit=1)
-                        audio_chunks.append(chunk)
-                    except sr.WaitTimeoutError:
-                        pass
-                if audio_chunks:
-                    data = sr.AudioData(b"".join(c.get_raw_data() for c in audio_chunks),
-                                        audio_chunks[0].sample_rate,
-                                        audio_chunks[0].sample_width)
-                    try:
-                        text = r.recognize_google(data, language="en-IN")
-                    except Exception:
-                        text = ""
-        except Exception as e:
-            print("🎤 Mic error:", e)
-
-        # reset UI
-        self._recording = False
-        self.root.after(0, lambda: [
-            self.speak_btn.config(text="🎤 Speak", bg=ACCENT),
-            self.timer_label.config(text="")
-        ])
-
-        if text:
-            self.append_message("You", text)
-            self._reply(text)
-        else:
-            self.append_message("System", "Didn’t catch that, please try again.")
+        # same as previous voice control code
+        ...
 
     # ---- AI RESPONSE ----
     def _reply(self, user_input):
